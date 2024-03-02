@@ -44,7 +44,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
+                Section("Personal") {
                     ForEach(expenses.items) { item in
                         if item.type == "Personal" {
                             HStack {
@@ -59,11 +59,9 @@ struct ContentView: View {
                         }
                     }
                     .onDelete(perform: removeItems)
-                } header: {
-                    Text("Personal")
                 }
                 
-                Section {
+                Section("Business") {
                     ForEach(expenses.items) { item in
                         if item.type == "Business" {
                             HStack {
@@ -78,8 +76,6 @@ struct ContentView: View {
                         }
                     }
                     .onDelete(perform: removeItems)
-                } header: {
-                    Text("Business")
                 }
                 
             }
