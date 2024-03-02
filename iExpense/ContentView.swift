@@ -44,22 +44,44 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(expenses.items) { item in
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(item.name)
-                                .font(.headline)
-                            
-                            Text(item.type)
+                Section {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Personal" {
+                            HStack {
+                                Text(item.name)
+                                    .font(.headline)
+                                
+                                Spacer()
+                                
+                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "usd"))
+                                    .foregroundStyle(amountColor(item.amount))
+                            }
                         }
-                        
-                        Spacer()
-                        
-                        Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "usd"))
-                            .foregroundStyle(amountColor(item.amount))
                     }
+                    .onDelete(perform: removeItems)
+                } header: {
+                    Text("Personal")
                 }
-                .onDelete(perform: removeItems)
+                
+                Section {
+                    ForEach(expenses.items) { item in
+                        if item.type == "Business" {
+                            HStack {
+                                Text(item.name)
+                                    .font(.headline)
+                                
+                                Spacer()
+                                
+                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "usd"))
+                                    .foregroundStyle(amountColor(item.amount))
+                            }
+                        }
+                    }
+                    .onDelete(perform: removeItems)
+                } header: {
+                    Text("Business")
+                }
+                
             }
             .navigationTitle("iExpense")
             .toolbar {
